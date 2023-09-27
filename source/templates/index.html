@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <title>Bevásárló lista</title>
+</head>
+<body>
+    <h1>Shopping List</h1>
+    <form method="post">
+        <input type="text" name="product">
+    </form>
+    <script src="{{ url_for('static', filename='index.js')}}"></script>
+</body>
+</html>
