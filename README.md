@@ -31,4 +31,4 @@ CRUD
     - elküldöm azt az egyet
     - visszaküldi az összeset
 1. áru törlése (DELETE)
-   
+    - id elküldés
