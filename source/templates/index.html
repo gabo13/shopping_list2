@@ -1,17 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="cache-control" content="no-cache" />
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-    <title>Bevásárló lista</title>
+    <title>Bevásárló lista 2.0</title>
 </head>
 <body>
-    <h1>Shopping List</h1>
-    <form method="post">
-        <input type="text" name="product">
+    <h2>Bevásárló lista 2.0 <span id="net_status"></span><button id="save_btn">Mentés</button></h2>
+    
+    <form id="mainform" method="post">
+        <label for="product">Áru:</label>
+        <input id="product" type="text" name="product">
+        <input id="submit" type="submit" value="+">
     </form>
+    <div>
+        <h3>Kell:</h3>
+        <div id="kell">
+
+        </div>
+        <h3>Kosárban:</h3>
+        <div id="van">
+
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='index.js')}}"></script>
 </body>
 </html>

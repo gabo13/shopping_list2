@@ -1,7 +1,9 @@
 # shopping_list2
 
-product: {
-    id: 0..1,
-    create: date,
-    name: name,
-}
+## product:
+- id
+- name
+
+## future information:
+- where
+- bolt

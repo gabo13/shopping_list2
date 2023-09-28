@@ -14,9 +14,26 @@ data = [
      "name":"körte"}
     ]
 
+def save_data():
+    global data
+    with open("lista.json","wt") as f:
+        json.dump(obj=data, fp=f, indent=4)
+
 @app.route('/')
 def root():
     return render_template('index.html')
+
+@app.route('/api/cmd', methods=['POST'])
+def cmd():
+    global data
+    print("Window close")
+    request_data = request.get_json()
+    match request_data["cmd"]:
+        case "save":
+            save_data()
+            return "save ok"
+
+
 
 @app.route('/api', methods=['GET','POST','PUT','DELETE'])
 def api():
