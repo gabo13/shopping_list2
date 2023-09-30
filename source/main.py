@@ -17,7 +17,7 @@ data = [
 def save_data():
     global data
     with open("lista.json","wt") as f:
-        json.dump(obj=data, fp=f, indent=4)
+        json.dump(data,f, indent=4)
 
 @app.route('/')
 def root():
@@ -31,7 +31,7 @@ def cmd():
     match request_data["cmd"]:
         case "save":
             save_data()
-            return "save ok"
+            return jsonify({"msg":"ok"})
 
 
 
