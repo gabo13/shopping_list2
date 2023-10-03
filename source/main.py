@@ -16,8 +16,9 @@ data = [
 
 def save_data():
     global data
-    with open("lista.json","wt") as f:
-        json.dump(data,f, indent=4)
+    with open("lista.json","wt",encoding="UTF-8") as f:
+        print(data)
+        json.dump(data,f, indent=4, ensure_ascii=False)
 
 @app.route('/')
 def root():

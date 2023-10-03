@@ -1,12 +1,58 @@
 
-const sbmtBtn = document.getElementById("submit");
+/***************
+ * HTML ELEMENTS FOR JAVA SCRIPT 
+ ***************/
+// 
+const addBtn = document.getElementById("submit");
 const saveBtn = document.getElementById("save_btn");
+const productBox = document.getElementById("product");
+const statusSign = document.getElementById("net_status");
+let data = [];
+let statusInterval = setInterval(onlineCheck,3000);
 
+
+/***************
+ * EVENTS HANDLING
+ ***************/
+window.addEventListener('load', (event) => {
+    // LOAD DATA FROM API WHEN WINDOWS LOAD
+    getData("/api")
+    .then(responseJson => {
+        render(responseJson);
+    })
+    
+});
+
+saveBtn.addEventListener('click', (event) => {
+    postData('/api/cmd', { "cmd": "save" })
+    .then(responseJson => {
+        console.log(responseJson);
+    })
+});
+
+addBtn.addEventListener('click', (event) => {
+    addProduct(productBox.value);
+});
+
+productBox.addEventListener('keypress',(event)=>{
+    if (event.code == "Enter" || event.keyCode == 13) {
+        addProduct(productBox.value);
+    }
+});
+/****************
+ *  OTHER FUNCTIONS
+ ****************/
 
 function showDialog(msg) {
+    //SHOW DIALOG MESSAGE
     const dialog = document.getElementById("dialog");
-    dialog.querySelector("p").innerText=msg;
+    dialog.querySelector("p").innerText = msg;
     dialog.showModal();
+}
+
+async function getData(url) {
+    const response = await fetch(url);
+        return response.json();
 }
 
 
@@ -27,49 +73,37 @@ async function postData(url, data = {}) {
 function render(data = []) {
     let htmlTemp = "";
     data.forEach(element => {
-        console.log(element);
+        //console.log(element);
         htmlTemp += `<p data-id="${element.id}">${element.name}<p>`;
     });
     document.getElementById("kell").innerHTML = htmlTemp;
 }
 
-let data = [];
+function addProduct(product) {
 
-window.addEventListener('load', (event) => {
-    const status = document.getElementById("net_status");
-    status.innerText = navigator.onLine ? "Online" : "Offline";
-    fetch("/api")
-        .then(response => response.json())
-        .then(responseJson => {
-            data = responseJson;
-            render(responseJson);
-        })
-        .catch(error => {
-            console.error(error);
-        })
-});
-
-saveBtn.addEventListener('click', (event) => {
-    postData('/api/cmd', { "cmd": "save" })
-});
-
-function addProduct(event) {
-    event.preventDefault();
-    
-    const formData = new FormData(document.getElementById("mainform"));
-    const product = formData.get("product");
-
+    console.info("product add: ", product);
     if (product) {
         postData('/api', { name: product })
             .then((responseJson) => {
+                productBox.value = "";
                 render(responseJson);
+                productBox.focus();
             })
             .catch((error) => {
                 console.error(error);
             })
     } else {
-        showDialog("Hiba");
+        showDialog("Hiba!");
     }
 }
 
-sbmtBtn.addEventListener('click', addProduct);
+function onlineCheck() {
+    //console.log("check");
+    if (navigator.onLine) {
+        statusSign.innerText = "Online";
+        statusSign.style.color = "yellowgreen";
+    } else {
+        statusSign.innerText = "Offline";
+        statusSign.style.color = "red";
+    }
+}

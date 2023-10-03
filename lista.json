@@ -5,34 +5,26 @@
     },
     {
         "id": 1,
-        "name": "k\u00f6rte"
+        "name": "körte"
     },
     {
-        "name": "baba",
+        "name": "456",
         "id": 2
     },
     {
-        "name": "baba",
+        "name": "46",
         "id": 3
     },
     {
-        "name": "baba",
+        "name": "78",
         "id": 4
     },
     {
-        "name": "baba",
+        "name": "456",
         "id": 5
     },
     {
-        "name": "baba",
+        "name": "123",
         "id": 6
-    },
-    {
-        "name": "baba",
-        "id": 7
-    },
-    {
-        "name": "baba",
-        "id": 8
     }
 ]
