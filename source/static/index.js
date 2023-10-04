@@ -3,11 +3,11 @@
  * HTML ELEMENTS FOR JAVA SCRIPT 
  ***************/
 // 
-const addBtn = document.getElementById("submit");
+const addBtn = document.getElementById("add_btn");
 const saveBtn = document.getElementById("save_btn");
 const productBox = document.getElementById("product");
 const statusSign = document.getElementById("net_status");
-let data = [];
+let data;
 let statusInterval = setInterval(onlineCheck,3000);
 
 
@@ -52,10 +52,37 @@ function showDialog(msg) {
 
 async function getData(url) {
     const response = await fetch(url);
-        return response.json();
+    return response.json();
 }
 
+function productBuy(elem) {
+    console.log("buy");
+    console.log(elem.parentElement.dataset);
+}
 
+function productEdit(elem) {
+    console.log("edit");
+    console.log(elem.parentElement.dataset);
+}
+
+function productDelete(elem) {
+    console.log("delete");
+    console.log("/api/delete/"+elem.parentElement.dataset.id);
+    fetch("/api/delete/"+elem.parentElement.dataset.id,{
+        method: "DELETE",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/JSON; charset=utf-8",
+        }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+        data = responseJson;
+        render(data);
+    })
+}
 async function postData(url, data = {}) {
     const response = await fetch(url, {
         method: "POST",
@@ -70,19 +97,33 @@ async function postData(url, data = {}) {
     return response.json();
 }
 
-function render(data = []) {
-    let htmlTemp = "";
-    data.forEach(element => {
+function render(data) {
+    let htmlTemp_pending = "";
+    data["pending"].forEach(element => {
         //console.log(element);
-        htmlTemp += `<p data-id="${element.id}">${element.name}<p>`;
+        htmlTemp_pending += `<p data-id="${element.id}">
+                    ${element.name}
+                    <img class="image_icons" src="/img/to_basket.svg" alt="buy" onclick="productBuy(this)">
+                    <img class="image_icons" src="/img/edit.svg" alt="edit" onclick="productEdit(this)">
+                    <img class="image_icons" src="/img/delete.svg" alt="edit" onclick="productDelete(this)">
+                    <p>`;
     });
-    document.getElementById("kell").innerHTML = htmlTemp;
+    let htmlTemp_ready =""
+    data["ready"].forEach(element => {
+        //console.log(element);
+        htmlTemp_ready += `<p data-id="${element.id}">
+                    ${element.name}
+                    <img class="image_icons" src="/img/edit.svg" alt="edit" onclick="productEdit">
+                    <img class="image_icons" src="/img/delete.svg" alt="edit" onclick="productDelete">
+                    <p>`;
+    });
+    document.getElementById("pending").innerHTML = htmlTemp_pending;
+    document.getElementById("ready").innerHTML = htmlTemp_ready;
 }
 
 function addProduct(product) {
-
-    console.info("product add: ", product);
     if (product) {
+        console.info("INFO: addProduct",product)
         postData('/api', { name: product })
             .then((responseJson) => {
                 productBox.value = "";
@@ -93,7 +134,7 @@ function addProduct(product) {
                 console.error(error);
             })
     } else {
-        showDialog("Hiba!");
+        showDialog("Hiba! Üres a termék mező!");
     }
 }
 

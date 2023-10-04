@@ -32,3 +32,8 @@ CRUD
     - visszaküldi az összeset
 1. áru törlése (DELETE)
     - id elküldés
+
+
+yellowgreen:
+ #9ACD32
+ rgb(154,205,50)

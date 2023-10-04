@@ -1,9 +1,35 @@
 * {
     color: yellowgreen;
     background-color: #222;
+    /* outline: 1px dotted red; */
 }
 
 #net_status {
     font-size: small;
     margin-right: 5%;
+}
+#add_btn {
+    margin-right: 20px;
+}
+
+.image_icons {
+    width: 2em;
+    height: 2em;
+    border: 1px solid #9acd3255;
+    border-radius: 0.5rem;
+    position: relative;
+    top: 0.75em;
+    
+    
+}
+
+dialog p {
+    margin: auto;
+    width: fit-content;
+    text-align: center;
+}
+dialog form {
+    margin: 10px auto;
+    text-align: center;
+    width: fit-content;
 }
