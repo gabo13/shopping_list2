@@ -7,6 +7,10 @@ const addBtn = document.getElementById("add_btn");
 const saveBtn = document.getElementById("save_btn");
 const productBox = document.getElementById("product");
 const statusSign = document.getElementById("net_status");
+const buy_dialog = document.getElementById("buy_dialog");
+const buy_form = document.getElementById("buy_form");
+
+
 let data;
 let statusInterval = setInterval(onlineCheck,3000);
 
@@ -50,20 +54,35 @@ function showDialog(msg) {
     dialog.showModal();
 }
 
+
 async function getData(url) {
     const response = await fetch(url);
     return response.json();
 }
 
+
 function productBuy(elem) {
+    //apin keresztöl elküldjük külön az adatokat
     console.log("buy");
     console.log(elem.parentElement.dataset);
+    buy_dialog.showModal();
 }
+
+buy_form.addEventListener('submit', (event)=>{
+    console.log("event:",event);
+    event.preventDefault();
+    buy_dialog.close();
+    formData = new FormData(buy_form);
+    console.info(Array(formData));
+    
+})
+
 
 function productEdit(elem) {
     console.log("edit");
     console.log(elem.parentElement.dataset);
 }
+
 
 function productDelete(elem) {
     console.log("delete");
@@ -83,6 +102,8 @@ function productDelete(elem) {
         render(data);
     })
 }
+
+
 async function postData(url, data = {}) {
     const response = await fetch(url, {
         method: "POST",

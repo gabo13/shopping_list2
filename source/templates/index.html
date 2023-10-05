@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <title>Bevásárló lista 2.0</title>
 </head>
+
 <body>
     <h2>Bevásárló lista 2.0 <span id="net_status"></span><button id="save_btn">Mentés</button></h2>
-    
+
     <div>
         <label for="product">Áru:</label>
         <input id="product" type="text" name="product">
@@ -31,6 +33,31 @@
             <button>OK</button>
         </form>
     </dialog>
+    <dialog id="buy_dialog">
+        <form id="buy_form" method="post">
+            <label for="id_bolt">Bolt:</label>
+            <input type="text" list="id_bolt_list" id="id_bolt" name="bolt">
+            <datalist id="id_bolt_list">
+                <option value="Coop">
+                <option value="Tesco">
+                <option value="Spar">
+                <option value="Lidl">
+                <option value="Aldi">
+            </datalist>
+
+            <label for="id_mennyiseg">Mennyiség</label>
+            <input id="id_mennyiseg" type="text" name="mennyiseg">
+
+            <label for="id_ar">Ár:</label>
+            <input id="id_ar" type="text" name="ar">
+
+            <input type="submit" value="submit" name="submit">
+            <button>Mégse</button>
+
+        </form>
+
+    </dialog>
     <script src="{{ url_for('static', filename='index.js')}}"></script>
 </body>
+
 </html>

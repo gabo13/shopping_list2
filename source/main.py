@@ -2,7 +2,7 @@
 #Shopping list 2.0
 #-*- coding: utf-8 -*-
 
-from flask import Flask, render_template, request, url_for, jsonify, send_from_directory
+from flask import Flask, render_template, redirect, request, url_for, jsonify, send_from_directory
 import json
 import time
 
@@ -36,7 +36,7 @@ def root():
 
 @app.route('/img/<image>')
 def get_img(image):
-    return send_from_directory(app.static_folder+"/images", image, mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(app.static_folder+"/images", image)#, mimetype='image/vnd.microsoft.icon')
 
 @app.route('/favicon.ico')
 def favicon():
@@ -51,6 +51,11 @@ def cmd():
         case "save":
             save_data()
             return jsonify({"msg":"ok"})
+
+@app.route('/api/vasarol', methods=['POST'])
+def vasarol():
+    print("Form data: ",request.form)
+    return redirect("/")
 
 def generateID():
     id = int(time.time())

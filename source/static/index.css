@@ -1,6 +1,7 @@
 * {
     color: yellowgreen;
     background-color: #222;
+    box-sizing: border-box;
     /* outline: 1px dotted red; */
 }
 
@@ -32,4 +33,28 @@ dialog form {
     margin: 10px auto;
     text-align: center;
     width: fit-content;
+}
+
+#buy-dialog {
+    width: 95dvw;
+    border: 2px outset gray;
+}
+
+#vasarol-form {
+    width: 95%;
+    margin: 0px;
+    display: grid;
+    grid-template-columns: [labels] auto [controls] 1fr;
+    grid-gap: 5px;
+}
+
+#vasarol-form > label {
+    grid-row: auto;
+    grid-column: labels;
+    justify-content: left;
+}
+
+#vasarol-form > input{
+    grid-row: auto;
+    grid-column: controls;
 }
