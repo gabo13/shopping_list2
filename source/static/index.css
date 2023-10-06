@@ -35,12 +35,12 @@ dialog form {
     width: fit-content;
 }
 
-#buy-dialog {
+#ID_buyDialog {
     width: 95dvw;
     border: 2px outset gray;
 }
 
-#vasarol-form {
+#ID_buyForm {
     width: 95%;
     margin: 0px;
     display: grid;
@@ -48,13 +48,27 @@ dialog form {
     grid-gap: 5px;
 }
 
-#vasarol-form > label {
+#ID_buyForm > label {
     grid-row: auto;
     grid-column: labels;
     justify-content: left;
 }
 
-#vasarol-form > input{
+#ID_buyForm > input{
     grid-row: auto;
     grid-column: controls;
+}
+
+table {
+    overflow: auto;
+    display: block;
+}
+
+td {
+    padding-right: 1em;
+    text-align: right;
+}
+#ID_sum {
+    padding: 5px;
+    font-weight: bolder;
 }

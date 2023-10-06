@@ -10,12 +10,12 @@
 </head>
 
 <body>
-    <h2>Bevásárló lista 2.0 <span id="net_status"></span><button id="save_btn">Mentés</button></h2>
+    <h2>Bevásárló lista 2.0 <span id="ID_netStatus"></span><button id="ID_saveBtn">Mentés</button></h2>
 
     <div>
-        <label for="product">Áru:</label>
-        <input id="product" type="text" name="product">
-        <input id="add_btn" type="button" value="+">
+        <label for="ID_productName">Áru:</label>
+        <input id="ID_productName" type="text" name="productText">
+        <input id="ID_addBtn" type="button" value="+">
     </div>
     <div>
         <h3>Kell:</h3>
@@ -27,17 +27,24 @@
 
         </div>
     </div>
-    <dialog id="dialog">
+    <div>
+        <p>Össz: <span id="ID_sum"></span> Ft</p>
+    </div>
+    <div>
+        <button id="ID_clearBtn">Clear</button>
+    </div>
+
+    <dialog id="ID_msgDialog">
         <p></p>
         <form method="dialog">
             <button>OK</button>
         </form>
     </dialog>
-    <dialog id="buy_dialog">
-        <form id="buy_form" method="post">
-            <label for="id_bolt">Bolt:</label>
-            <input type="text" list="id_bolt_list" id="id_bolt" name="bolt">
-            <datalist id="id_bolt_list">
+    <dialog id="ID_buyDialog">
+        <form id="ID_buyForm" method="post">
+            <label for="ID_shop">Bolt:</label>
+            <input type="text" list="ID_shopList" id="ID_shop" name="shop">
+            <datalist id="ID_shopList">
                 <option value="Coop">
                 <option value="Tesco">
                 <option value="Spar">
@@ -45,14 +52,14 @@
                 <option value="Aldi">
             </datalist>
 
-            <label for="id_mennyiseg">Mennyiség</label>
-            <input id="id_mennyiseg" type="text" name="mennyiseg">
+            <label for="ID_buy_Amount">Mennyiség</label>
+            <input class="clearable" autocomplete="off" id="ID_buy_Amount" type="text" name="buyAmount">
 
-            <label for="id_ar">Ár:</label>
-            <input id="id_ar" type="text" name="ar">
+            <label for="id_buy_Cost">Ár:</label>
+            <input class="clearable" autocomplete="off" id="id_buy_Cost" type="text" name="buyCost">
 
-            <input type="submit" value="submit" name="submit">
-            <button>Mégse</button>
+            <input type="submit" value="Kosárba" name="submit">
+            <button id="ID_cancelBtn">Mégse</button>
 
         </form>
 
