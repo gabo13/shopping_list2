@@ -1,6 +1,6 @@
 * {
     color: yellowgreen;
-    background-color: #222;
+    background-color: black;
     box-sizing: border-box;
     /* outline: 1px dotted red; */
 }
@@ -64,9 +64,10 @@ table {
     display: block;
 }
 
-td {
-    padding-right: 1em;
+td, th {
     text-align: right;
+    padding: 4px;
+
 }
 #ID_sum {
     padding: 5px;
