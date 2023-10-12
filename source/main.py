@@ -9,12 +9,8 @@ import time
 
 app = Flask(__name__)
 
-DATA = {"pending":[
-    {"id":0,
-     "name":"alma"},
-    {"id":1,
-     "name":"körte"}
-    ],
+DATA = {
+    "pending":[],
     "ready": [],
     }
 
@@ -46,7 +42,6 @@ def favicon():
 def cmd():
     global DATA
     request_data = request.get_json()
-    print(request_data)
     match request_data["cmd"]:
         case "save":
             save_data()
@@ -57,9 +52,7 @@ def cmd():
 
 @app.route('/api/tobasket', methods=['PUT'])
 def tobasket():
-    print("/api/tobasket: PUT")
     request_data =request.get_json()
-    print(request_data)
     for product in DATA["pending"]:
         if product["id"] == request_data["id"]:
             product.update(request_data)
@@ -69,7 +62,6 @@ def tobasket():
 
 def generateID():
     id = int(time.time())
-    #print("Generate id:", id)
     return id
 
 
@@ -79,26 +71,20 @@ def api():
     global DATA
     match request.method:
         case 'GET':
-            print("/api: GET")
-
             return jsonify(DATA)
         case 'POST':
             # addProduct
-            print("/api:POST")
             request_data = request.get_json()
             request_data["id"]= generateID()
             DATA["pending"].append(request_data)
-            
             return jsonify(DATA)
         case 'PUT':
-            print("/api: PUT")
             return "PUT"
 
 @app.route('/api/delete/<productID>', methods=['DELETE'])
 def delete_product(productID):
     for product in DATA["pending"]:
                 if product["id"] == int(productID):
-                    print("delete product: ", product)
                     DATA["pending"].remove(product)
     return jsonify(DATA)
 

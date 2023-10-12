@@ -12,40 +12,38 @@ const buyForm = document.getElementById("ID_buyForm");
 const buyDialogCancelBtn = document.getElementById("ID_cancelBtn");
 
 let data;
-let statusInterval = setInterval(onlineCheck,3000);
+let statusInterval = setInterval(onlineCheck, 3000);
 let modifiID;
 
-/***************
- * EVENTS HANDLING
- ***************/
+
 window.addEventListener('load', (event) => {
     // LOAD DATA FROM API WHEN WINDOWS LOAD
     getData("/api")
-    .then(responseJson => {
-        render(responseJson);
-    })
-    
+        .then(responseJson => {
+            render(responseJson);
+        })
+
 });
 
 saveBtn.addEventListener('click', (event) => {
     postData('/api/cmd', { "cmd": "save" })
-    .then(responseJson => {
-        console.log(responseJson);
-    })
+        .then(responseJson => {
+            console.log(responseJson);
+        })
 });
 
 addBtn.addEventListener('click', (event) => {
     addProduct(productBox.value);
 });
 
-productBox.addEventListener('keypress',(event)=>{
+productBox.addEventListener('keypress', (event) => {
     if (event.code == "Enter" || event.keyCode == 13) {
         addProduct(productBox.value);
     }
 });
 
 
-buyDialogCancelBtn.addEventListener("click", (event =>{
+buyDialogCancelBtn.addEventListener("click", (event => {
     event.preventDefault();
     buyDialog.close();
 }))
@@ -78,73 +76,68 @@ function productBuy(elem) {
     buyDialog.showModal();
 }
 
-buyForm.addEventListener('submit', (event)=>{
+buyForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    
+
     let formData = new FormData(buyForm);
     let formDataObj = {};
-    formData.forEach((value,key) => (formDataObj[key] = value));
+    formData.forEach((value, key) => (formDataObj[key] = value));
     formDataObj["id"] = Number(modifiID);
     let date = new Date()
-    dateString = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+    dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     formDataObj["buyDate"] = dateString;
-    
-    
+
+
 
     putData("/api/tobasket", formDataObj)
-    .then(responseJson => {
-        console.log(responseJson);
-        render(responseJson);
-    });
+        .then(responseJson => {
+            console.log(responseJson);
+            render(responseJson);
+        });
 
     buyDialog.close();
-    
+
 });
 
 function getSum(data) {
     let sumPrice = 0;
-    data["ready"].forEach(product=>{
+    data["ready"].forEach(product => {
         sumPrice += Number(product.buyCost.match(/\d+(\.\d+)?/g))
     })
     document.getElementById("ID_sum").innerText = sumPrice;
 }
 
-
-function productEdit(elem) {
-    console.log("edit");
-    console.log(elem.parentElement.dataset);
-}
-
-document.getElementById("ID_clearBtn").addEventListener("click",(event)=>{
+document.getElementById("ID_clearBtn").addEventListener("click", (event) => {
     console.log("Clear pressed");
     if (confirm("Biztos törlöd?")) {
-    postData('/api/cmd', { "cmd": "clear" })
-    .then(responseJson => {
-        render(responseJson)
-    });
-}
+        postData('/api/cmd', { "cmd": "clear" })
+            .then(responseJson => {
+                render(responseJson)
+            });
+    }
 });
 
 function productDelete(elem) {
-    console.log("delete");
-    console.log("/api/delete/"+elem.parentElement.dataset.id);
-    fetch("/api/delete/"+elem.parentElement.dataset.id,{
-        method: "DELETE",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/JSON; charset=utf-8",
-        }
-    })
-    .then(response => response.json())
-    .then(responseJson => {
-        data = responseJson;
-        render(data);
-    });
+    //console.log("/api/delete/"+elem.parentElement.dataset.id);
+    if (confirm("Biztos hogy törlöd?")) {
+        fetch("/api/delete/" + elem.parentElement.dataset.id, {
+            method: "DELETE",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/JSON; charset=utf-8",
+            }
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                data = responseJson;
+                render(data);
+            });
+    }
 }
 
-async function putData(url, data={}) {
+async function putData(url, data = {}) {
     const response = await fetch(url, {
         method: "PUT",
         mode: "cors",
@@ -174,9 +167,9 @@ async function postData(url, data = {}) {
 }
 
 function timestampToDate(ts) {
-    let date =new Date(ts*1000);
-    return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-    
+    let date = new Date(ts * 1000);
+    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
 }
 
 function render(data) {
@@ -186,19 +179,11 @@ function render(data) {
         htmlTemp_pending += `<p data-id="${product.id}">
                     ${product.name}
                     <img class="image_icons" src="/img/to_basket.svg" alt="buy" onclick="productBuy(this)">
-                    <img class="image_icons" src="/img/edit.svg" alt="edit" onclick="productEdit(this)">
                     <img class="image_icons" src="/img/delete.svg" alt="edit" onclick="productDelete(this)">
                     <p>`;
     });
-    /* let htmlTemp_ready =""
-    data["ready"].forEach(element => {
-        htmlTemp_ready += `<p data-id="${element.id}">
-                    ${element.name}
-                    <img class="image_icons" src="/img/edit.svg" alt="edit" onclick="productEdit">
-                    <img class="image_icons" src="/img/delete.svg" alt="edit" onclick="productDelete">
-                    <p>`;
-    }); */
-    let htmlTemp_ready ="<table><thead><th>Dátum</th><th>Bolt</th><th>Termék</th><th>Mennyiség</th><th>Ár</th></thead>";
+
+    let htmlTemp_ready = "<table><thead><th>Dátum</th><th>Bolt</th><th>Termék</th><th>Mennyiség</th><th>Ár</th></thead>";
     data["ready"].forEach(product => {
         htmlTemp_ready += `<tr data-id="${product.id}">
         <td>${product.buyDate}</td>
@@ -217,7 +202,7 @@ function render(data) {
 
 function addProduct(product) {
     if (product) {
-        console.info("INFO: addProduct",product)
+        console.info("INFO: addProduct", product)
         postData('/api', { name: product })
             .then((responseJson) => {
                 productBox.value = "";
